@@ -47,6 +47,10 @@ Restart the service
 
     echo `kubectl get secret argo-artifacts --namespace argo-events -o jsonpath="{.data.root-password}"| base64 --decode`
     echo `kubectl get secret argo-artifacts --namespace argo-events -o jsonpath="{.data.root-user}"| base64 --decode`
-**Install a secret in the `argo-events` namespace, so Workflows can retrieve it:**
+**Install a secret in the `argo-events` namespace, so workflows can use it to connect to minio:**
 
     kubectl create secret -n argo-events generic my-minio-cred --from-literal=root-user='REPLACE_ME_WITH_BASE64-DECODED-VALUE-OF-THE-ROOT-USER' --from-literal=root-password='REPLACE_ME_WITH_BASE64-DECODED-VALUE-OF-THE-ROOT-PASSWORD'
+
+**Install a configmap in the `argo-events` namespace, so workflows can use it to store artifacts in minio:**
+
+    kubectl apply -f minio-artifact-repo-cm.yml
