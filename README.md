@@ -5,18 +5,12 @@ We want to combine `Argo CD`, `Argo Rollouts`, `Argo Workflows`, and `Argo Event
 
 ## 🔎 Follow the below steps to do this scenario
 
-:one: **Create these namespaces in your Kubernetes cluster:**
-
-    kubectl create ns argocd
-    kubectl create ns argo-rollouts
-    kubectl create ns argo-events
-
-:two: **Install Sonatype Nexus Repository:**
+:one: **Install sonatype nexus repository in your nexus server:**
 
     cd nexus/ && docker-compose up -d
 If Nexus is up and running, create a repository named `argo-demo` with the type `docker (hosted)` and set its HTTP port to `8085`.
 
-:three: **Add private registry to Docker/containerd:**
+:two: **Add private registry to Docker/containerd in your kubernetes cluster:**
 
 **Docker:**
 
@@ -35,6 +29,13 @@ If Nexus is up and running, create a repository named `argo-demo` with the type 
     EOF
 Restart the service
 
-:four: **Create a Kubernetes secret containing authentication credentials for Nexus:**
+:three: **Create these namespaces in your Kubernetes cluster:**
 
-    k create secret generic -n argo-events docker-config-secret --from-file=/path/to/.docker/config.json    
+    kubectl create ns argocd
+    kubectl create ns argo-rollouts
+    kubectl create ns argo
+    kubectl create ns argo-events
+
+:four: **Create a Kubernetes secret in your Kubernetes cluster containing authentication credentials for Nexus:**
+
+    kubectl create secret generic -n argo-events docker-config-secret --from-file=/path/to/.docker/config.json   
