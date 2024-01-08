@@ -42,21 +42,24 @@ Restart the service
     kubectl create ns argo
     kubectl create ns argo-events
 
-:five: **Create a Kubernetes secret in your Kubernetes cluster containing authentication credentials for Nexus:**
+:five: **Install argo-cd, argo-rollouts, argo-workflows and argo-events in your kubernetes cluster**
+  - **Argo-CD:** 
+
+:six: **Create a Kubernetes secret in your Kubernetes cluster containing authentication credentials for Nexus:**
 
     kubectl create secret generic -n argo-events docker-config-secret --from-file=/path/to/.docker/config.json
 
-:six: **Install Minio in your kubernetes cluster and integrate it with Argo Workflows to store workflows artifacts:**
+:seven: **Install Minio in your kubernetes cluster and integrate it with Argo Workflows to store workflows artifacts:**
 
     helm install -n argo-events argo-artifacts oci://registry-1.docker.io/bitnamicharts/minio --set service.type=NodePort --set service.nodePorts.api=32073 --set service.nodePorts.console=32074 --set fullnameOverride=argo-artifacts
 **Retrieve your ROOT-PASSWORD and ROOT-USER:**
 
     echo `kubectl get secret argo-artifacts --namespace argo-events -o jsonpath="{.data.root-password}"| base64 --decode`
     echo `kubectl get secret argo-artifacts --namespace argo-events -o jsonpath="{.data.root-user}"| base64 --decode`
-**Install a secret in the `argo-events` namespace, so workflows can use it to connect to minio:**
+**Create a kubernetes secret in the `argo-events` namespace, so workflows can use it to connect to minio:**
 
     kubectl create secret -n argo-events generic my-minio-cred --from-literal=root-user='REPLACE_ME_WITH_BASE64-DECODED-VALUE-OF-THE-ROOT-USER' --from-literal=root-password='REPLACE_ME_WITH_BASE64-DECODED-VALUE-OF-THE-ROOT-PASSWORD'
 
-**Install a configmap in the `argo-events` namespace, so workflows can use it to store artifacts in minio:**
+**Create a kubernetes configmap in the `argo-events` namespace, so workflows can use it to store artifacts in minio:**
 
     kubectl apply -f minio-artifact-repo-cm.yml -n argo-events
