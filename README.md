@@ -43,7 +43,17 @@ Restart the service
     kubectl create ns argo-events
 
 :five: **Install argo-cd, argo-rollouts, argo-workflows and argo-events in your kubernetes cluster**
-  - **Argo-CD:** 
+  - **Argo-CD:**
+    - https://argo-cd.readthedocs.io/en/stable/operator-manual/installation/
+    - https://argo-cd.readthedocs.io/en/stable/getting_started/
+  - **Argo-Rollouts:**
+    -  https://argo-rollouts.readthedocs.io/en/stable/installation/
+  - **Argo-Workflows:**
+    -  https://argo-workflows.readthedocs.io/en/latest/installation/
+    -  https://argo-workflows.readthedocs.io/en/latest/quick-start/
+  - **Argo-events:**
+    - https://argoproj.github.io/argo-events/installation/
+    - https://argoproj.github.io/argo-events/quick_start/
 
 :six: **Create a Kubernetes secret in your Kubernetes cluster containing authentication credentials for Nexus:**
 
