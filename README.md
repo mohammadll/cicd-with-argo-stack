@@ -29,18 +29,24 @@ If Nexus is up and running, create a repository named `argo-demo` with the type 
     EOF
 Restart the service
 
-:three: **Create these namespaces in your Kubernetes cluster:**
+:three: **Install and configure Gitlab**
+   - Install GitLab on your GitLab server
+   - Create two different repositories named `argo-config` and `my-app` in GitLab
+   - Put the content of the `argo-cd`, `argo-rollouts` and `argo-events` directories into the `argo-config GitLab repository`
+   - Put the content of the `my-app` directory into the `my-app GitLab repository`
+
+:four: **Create these namespaces in your Kubernetes cluster:**
 
     kubectl create ns argocd
     kubectl create ns argo-rollouts
     kubectl create ns argo
     kubectl create ns argo-events
 
-:four: **Create a Kubernetes secret in your Kubernetes cluster containing authentication credentials for Nexus:**
+:five: **Create a Kubernetes secret in your Kubernetes cluster containing authentication credentials for Nexus:**
 
     kubectl create secret generic -n argo-events docker-config-secret --from-file=/path/to/.docker/config.json
 
-:five: **Install Minio in your kubernetes cluster and integrate it with Argo Workflows to store workflows artifacts:**
+:six: **Install Minio in your kubernetes cluster and integrate it with Argo Workflows to store workflows artifacts:**
 
     helm install -n argo-events argo-artifacts oci://registry-1.docker.io/bitnamicharts/minio --set service.type=NodePort --set service.nodePorts.api=32073 --set service.nodePorts.console=32074 --set fullnameOverride=argo-artifacts
 **Retrieve your ROOT-PASSWORD and ROOT-USER:**
