@@ -77,3 +77,5 @@ Restart the service
 **Create a kubernetes configmap in the `argo-events` namespace, so workflows can use it to store artifacts in minio:**
 
     kubectl apply -f minio-artifact-repo-cm.yml -n argo-events
+
+## 🔎 Executing the scenario
