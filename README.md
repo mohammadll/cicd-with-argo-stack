@@ -42,7 +42,7 @@ Restart the service
 
 :five: **Install Minio in your kubernetes cluster and integrate it with Argo Workflows to store workflows artifacts:**
 
-    helm install argo-artifacts oci://registry-1.docker.io/bitnamicharts/minio --set service.type=NodePort --set service.nodePorts.api=32073 --set service.nodePorts.console=32074 --set fullnameOverride=argo-artifacts -n argo-events
+    helm install -n argo-events argo-artifacts oci://registry-1.docker.io/bitnamicharts/minio --set service.type=NodePort --set service.nodePorts.api=32073 --set service.nodePorts.console=32074 --set fullnameOverride=argo-artifacts
 **Retrieve your ROOT-PASSWORD and ROOT-USER:**
 
     echo `kubectl get secret argo-artifacts --namespace argo-events -o jsonpath="{.data.root-password}"| base64 --decode`
