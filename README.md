@@ -53,4 +53,4 @@ Restart the service
 
 **Install a configmap in the `argo-events` namespace, so workflows can use it to store artifacts in minio:**
 
-    kubectl apply -f minio-artifact-repo-cm.yml
+    kubectl apply -f minio-artifact-repo-cm.yml -n argo-events
