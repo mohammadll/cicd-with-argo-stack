@@ -1,0 +1,54 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: gitlab-access
+  namespace: argo-events
+type: Opaque
+data:
+  token: REPLACE_ME_WITH_A_GITLAB_TOKEN #Create a token for "my-app" gitlab repository and provide its base64 encoded value here
+---
+apiVersion: argoproj.io/v1alpha1
+kind: EventSource
+metadata:
+  name: ci
+  namespace: argo-events
+spec:
+  service:
+    ports:
+      - port: 12000
+        targetPort: 12000
+  gitlab:
+    argo-demo:
+      projects:
+      - "REPLACE_ME_WITH_THE_PROJECT_ID_OF_MY-APP_GITLAB_REPOSITORY" #ex: "35"
+      webhook:
+        endpoint: /push
+        port: "12000"
+        url: http://argo.events #The value of url must be REACHABLE from inside gitlab server. add an entry to /etc/hosts of gitlab server to point to the ip_address of your kubernetes node. ex: 192.168.1.142 argo.events
+      events:
+        - PushEvents
+      accessToken:
+        key: token
+        name: gitlab-access
+      enableSSLVerification: false
+      gitlabBaseURL: REPLACE_ME_WITH_THE_ADDRESS_OF_YOUR_GITLAB_SERVER #ex: http://gitlab.isc
+      deleteHookOnFinish: true
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: argo-demo-ingress
+  namespace: argo-events
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: argo.events #You should add "argo.events" to your /etc/hosts, ex: 127.0.0.1 argo.events
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: ci-eventsource-svc
+            port:
+              number: 12000
