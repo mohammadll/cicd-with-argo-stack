@@ -38,4 +38,15 @@ Restart the service
 
 :four: **Create a Kubernetes secret in your Kubernetes cluster containing authentication credentials for Nexus:**
 
-    kubectl create secret generic -n argo-events docker-config-secret --from-file=/path/to/.docker/config.json   
+    kubectl create secret generic -n argo-events docker-config-secret --from-file=/path/to/.docker/config.json
+
+:five: **Install Minio in your kubernetes cluster and integrate it with Argo Workflows to store workflows artifacts:**
+
+    helm install argo-artifacts oci://registry-1.docker.io/bitnamicharts/minio --set service.type=NodePort --set service.nodePorts.api=32073 --set service.nodePorts.console=32074 --set fullnameOverride=argo-artifacts -n argo-events
+**Retrieve your ROOT-PASSWORD and ROOT-USER:**
+
+    echo `kubectl get secret argo-artifacts --namespace argo-events -o jsonpath="{.data.root-password}"| base64 --decode`
+    echo `kubectl get secret argo-artifacts --namespace argo-events -o jsonpath="{.data.root-user}"| base64 --decode`
+**Install a secret in the `argo-events` namespace, so Workflows can retrieve it:**
+
+    kubectl create secret -n argo-events generic my-minio-cred --from-literal=root-user='REPLACE_ME_WITH_BASE64-DECODED-VALUE-OF-THE-ROOT-USER' --from-literal=root-password='REPLACE_ME_WITH_BASE64-DECODED-VALUE-OF-THE-ROOT-PASSWORD'
