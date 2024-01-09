@@ -38,7 +38,7 @@ spec:
                     - name: argo-config-branch
                       value: main
                     - name: nexus-registry
-                      value: REPLACE_ME_WITH_NEXUS_IP_ADDRESS:8085 #ex: 192.168.1.2
+                      value: REPLACE_ME_WITH_NEXUS_IP_ADDRESS:8085 #ex: 192.168.1.2:8085
                 artifactRepositoryRef:
                   configMap: artifact-repository
                 entrypoint: ci
