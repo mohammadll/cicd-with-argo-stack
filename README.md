@@ -96,6 +96,8 @@ Restart the service
 
 :three: **Test the scenario to see how it works**
 
+**Proceed with these steps in order once the previous step is completed**
+
   - First all, Open the browser and type the url of argo,rollouts, argo-cd and argo-workflows to see their dashboards and also type the url of your app: `http://argo.demo` (it has been deployed on your kubernetes cluster in step `1`)
   - Modify the `index.html` file that exists in your `my-app GitLab repository`
   - If you check the Argo Workflows dashboard, you'll see that a workflow is running, triggered by a push event in your `my-app GitLab repository`
