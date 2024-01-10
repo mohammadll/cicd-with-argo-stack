@@ -33,6 +33,12 @@ If Nexus is up and running, create a repository named `argo-demo` with the type 
     EOF
 Restart the service
 
+**Test everything is working well:**
+
+    docker login -u USERNAME NEXUS_IP_ADDRESS:8085
+    docker pull nginx:alpine
+    docker tag nginx:alpine NEXUS_IP_ADDRESS:8085/nginx:alpine && docker push NEXUS_IP_ADDRESS:8085/nginx:alpine
+
 :three: **Install and configure Gitlab**
    - Install GitLab on your GitLab server
    - Create two different repositories named `argo-config` and `my-app` in GitLab
