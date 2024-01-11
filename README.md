@@ -85,3 +85,15 @@ Restart the service
     kubectl apply -f minio-artifact-repo-cm.yml -n argo-events
 
 ## 🔎 Executing the scenario
+
+**Test the scenario to see how it works**
+
+**Proceed with these steps in order once the previous step is completed**
+
+  1. Install your first argo-cd application using `kubectl apply -f argo-cd/argo-app.yml -n argocd`
+  2. Apply argo-events resources in your kubernetes cluster using `kubectl apply -f argo-events/ -n argo-events`
+  3. Open the browser and type the url of argo,rollouts, argo-cd and argo-workflows to see their dashboards and also type the url of your app: `http://argo.demo` (it has been deployed on your kubernetes cluster in step `1`)
+  4. Modify the `index.html` file that exists in your `my-app GitLab repository`
+  5. If you check the Argo Workflows dashboard, you'll see that a workflow is running, triggered by a push event in your `my-app GitLab repository`
+  6. The default polling interval in Argo CD is 3 minutes, indicating how frequently Argo CD checks for changes in your Git repository. Wait for 3 minutes or refresh your Argo CD app using its dashboard or CLI manually
+  7. As specified in the Argo Rollouts manifest, `20%` of the traffic is directed to the new version of the app and the promotion is paused until you manually unpause it (check `http://argo.demo` and refresh the page multiple times). If you are confident that everything is in order with the new version of the app, type `kubectl argo rollouts promote nginx-rollouts -n argo-demo` and then check the Argo Rollouts dashboard again. so, after a few minutes, you'll fully switch to the new version of your application. In this scenario, we are using the `canary` strategy, but you can also opt for the `blue-green` strategy if you prefer
